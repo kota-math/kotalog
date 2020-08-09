@@ -14,8 +14,8 @@ click the title and show more
          <a href="{% url 'article-detail' post.pk %}" class="btn btn-primary btn-lg"</a>
         {{ post.post_date }}
                 {{ post.title }} <br/>
-        <a href="{% url 'category' post.category %}" class="btn btn-light btn-sm"><h4>カテゴリー : {{ post.category }}</h4></a> by
-            {{ post.author }} </h2>
+        <a href="{% url 'category' post.category %}" class="btn btn-light btn-sm"><h4>カテゴリー : {{ post.category }}</h4></a> <h4>by
+        {{ post.author }}</h4> </h2>
     <br/><center>
         {{ post.body|slice:":30"|safe }}</center>
         <br/><br/>
@@ -24,12 +24,32 @@ click the title and show more
             <a href="{% url 'update_post' post.pk %}" class="btn btn-light brn-sm">Edit</a><br/>
         </center>{% endif %}
     <hr color="blue">
-    {% if post.pk == 5 %}
-        乙
-    {% endif %}
     </div>
-{% endfor %}
+    {% endfor %}
+        {% if is_paginated %}
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
 
+            {% for page_num in page_obj.paginator.page_range %}
+                {% if page_obj.number == page_num %}
+                    <li class="page-item active">
+                        <a class="page-link" href="#">{{ page_num }}</a></li>
+                {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+            {% endif %}
+            {%  endfor %}
+            {% if page_obj.has_next %}
+            <li class="page-link"><a href="?page={{ page_obj.next_page_number }}"><span aria-hidden="true">&raquo;</span>
+        </a></ul>
+        {% endif %}
+        {% endif %}
+    </ul>
 
 
 {% endblock %}
