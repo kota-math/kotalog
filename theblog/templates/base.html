@@ -9,7 +9,7 @@
     <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="{% static 'styles.css' %}">
       <link rel="stylesheet" href="{% static 'clean-blog.css' %}">
-      <link rel="stylesheet" href="{% static 'clean-blog.min.css' %}">
+     <link rel="stylesheet" href="{% static 'clean-blog.min.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'style_sheet.css' %}">
     <title>{% block title %}My freakin Blog{% endblock %}</title>
@@ -34,6 +34,24 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
+        {% if cat_menu %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Categories
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+            {% for item in cat_menu %}
+                <a class="dropright-item" href="{% url 'category' item %}">
+                    {{ item }}<br/>
+                </a>
+                {% endfor %}
+
+            </div>
+        </li>
+        {% else %}
+            <a class="nav-link" href="{% url 'categories-list' %}">Categories</a>
+        {% endif %}
     {% if user.is_authenticated %}
         <li class="nav-item">
         <a class="nav-link" href="{% url 'add_post' %}">Add Post</a>
@@ -63,13 +81,26 @@
                         <h1>KOTALOG</h1>
 
                         <hr class="small">
-                        <span class="subheading">by KK</span>
+                        <span class="subheading">by KK</span><br/>
+                        {% if cat_menu %}
+                        <div class="btn-group dropright">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            CATEGORIES
+                            </button>
+                        <div class="dropdown-menu">
+                                {% for item in cat_menu %}
+                                    <a class="dropright-item" href="{% url 'category' item %}">
+                                        {{ item }}<br/>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </header>
-
     <!-- Main Content -->
     <div class="container">
         <div class="row">
@@ -171,6 +202,9 @@
     <!-- jQuery -->
     <script src="{% static 'jquery.js' %}"></script>
 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="{% static 'bootstrap.js' %}"></script>
 

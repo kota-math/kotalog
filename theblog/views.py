@@ -13,13 +13,32 @@ class HomeView(ListView):
     template_name = 'home.html'
     ordering = ['-post_date']
 
+    def get_context_data(self, *args, **kwargs):
+        cat_menu = Category.objects.all()
+        context = super(HomeView, self).get_context_data(*args, **kwargs)
+        context["cat_menu"] = cat_menu
+        return context
+
+def CategoryListView(request):
+    cat_menu_list = Category.objects.all()
+    return render(request, 'categories_list.html', {'cat_menu_list':cat_menu_list})
+
+
 def CategoryView(request, cat):
-    caregory_posts = Post.objects.filter(category=cat)
+    caregory_posts = Post.objects.filter(category=cat.replace('-', ' '))
     return render(request, 'categories.html', {'cat': cat, 'category_posts':caregory_posts})
+
 
 class ArticleDetailView(DetailView):
     model = Post
     template_name = 'article_detail.html'
+
+    def get_context_data(self, *args, **kwargs):
+        cat_menu = Category.objects.all()
+        context = super(ArticleDetailView, self).get_context_data(*args, **kwargs)
+        context["cat_menu"] = cat_menu
+        return context
+
 
 class AddPostView(CreateView):
     model = Post
