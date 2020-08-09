@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Create A New Blog Post!{% endblock %}
+{% block content %}
+
+{% if user.is_authenticated %}
+<h1>Add Blog Post</h1>
+
+<br/><br/>
+        <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-secondary">Post</button>
+        </form>
+<br/><br/><br/>
+<a href="{% url 'home' %}" class="btn btn-outline-success btn-lg">Back</a>
+{% else %}
+YOU are not allowed
+
+{% endif %}
+
+{% endblock %}

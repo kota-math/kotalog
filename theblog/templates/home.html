@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<center>
+<h1>Recent Posts</h1>
+</center>
+<br/>
+click the title and show more
+
+{% for post in object_list %}
+    <hr color="blue">
+    <div style="background-color:#EEFFFF;">
+         <a href="{% url 'article-detail' post.pk %}" class="btn btn-primary btn-lg"</a>
+        {{ post.post_date }}
+                {{ post.title }} <br/>
+        <a href="{% url 'category' post.category %}" class="btn btn-light btn-sm"><h4>カテゴリー : {{ post.category }}</h4></a> by
+            {{ post.author }} </h2>
+    <br/><center>
+        {{ post.body|slice:":30"|safe }}</center>
+        <br/><br/>
+        {% if user.is_authenticated %}
+        <center>
+            <a href="{% url 'update_post' post.pk %}" class="btn btn-light brn-sm">Edit</a><br/>
+        </center>{% endif %}
+    <hr color="blue">
+    {% if post.pk == 5 %}
+        乙
+    {% endif %}
+    </div>
+{% endfor %}
+
+
+{% endblock %}
+
